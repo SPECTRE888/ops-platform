@@ -1,7 +1,3 @@
-git clone https://github.com/SPECTRE888/ops-platform.git temp
-cd temp/landing
-
-cat > index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,30 +11,30 @@ cat > index.html << 'EOF'
       background: #0a0a0a;
       color: #e8e8e8;
     }
-    
+
     header {
       background: #0f0f0f;
       padding: 20px 60px;
-      border-bottom: 1px solid #1a1a1a;
+      border-bottom: 2px solid #d4af37;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    
+
     .logo { font-size: 18px; font-weight: 600; color: #d4af37; letter-spacing: 1px; }
-    
+
     nav a { color: #888; text-decoration: none; margin: 0 20px; font-size: 12px; text-transform: uppercase; }
     nav a:hover { color: #d4af37; }
-    
+
     .hero {
       text-align: center;
       padding: 160px 60px;
       background: #0a0a0a;
     }
-    
-    .hero h1 { font-size: 48px; font-weight: 300; margin-bottom: 15px; color: #fff; }
+
+    .hero h1 { font-size: 48px; font-weight: 300; margin-bottom: 15px; color: #d4af37; }
     .hero p { font-size: 15px; color: #888; max-width: 500px; margin: 0 auto; }
-    
+
     .ops-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -47,31 +43,32 @@ cat > index.html << 'EOF'
       max-width: 1400px;
       margin: 0 auto;
     }
-    
+
     .ops-card {
       background: #0f0f0f;
-      border: 1px solid #1a1a1a;
+      border: 2px solid #d4af37;
       padding: 40px;
       text-align: center;
-      transition: border 0.3s;
+      transition: all 0.3s;
+      position: relative;
     }
-    
-    .ops-card:hover { border-color: #d4af37; }
-    .ops-card.coming { opacity: 0.5; }
-    
-    .ops-card h3 { font-size: 20px; margin-bottom: 10px; color: #fff; font-weight: 500; }
-    .ops-card p { color: #666; font-size: 13px; margin-bottom: 25px; }
-    
-    .coming-badge { color: #d4af37; font-size: 11px; text-transform: uppercase; margin-bottom: 15px; display: block; }
-    
+
+    .ops-card:hover { border-color: #ffd700; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+    .ops-card.coming { opacity: 0.8; }
+
+    .ops-card h3 { font-size: 20px; margin-bottom: 10px; color: #d4af37; font-weight: 500; }
+    .ops-card p { color: #888; font-size: 13px; margin-bottom: 25px; }
+
+    .coming-badge { color: #0a0a0a; background: #d4af37; font-size: 11px; text-transform: uppercase; padding: 6px 12px; margin-bottom: 15px; display: inline-block; font-weight: 600; letter-spacing: 1px; }
+
     .ops-features { text-align: left; margin-bottom: 25px; }
-    .ops-features li { color: #555; font-size: 12px; margin-bottom: 8px; list-style: none; }
+    .ops-features li { color: #888; font-size: 12px; margin-bottom: 8px; list-style: none; }
     .ops-features li:before { content: "—"; color: #d4af37; margin-right: 8px; }
-    
+
     .btn-access {
       background: transparent;
       color: #d4af37;
-      border: 1px solid #d4af37;
+      border: 2px solid #d4af37;
       padding: 10px 30px;
       border-radius: 1px;
       cursor: pointer;
@@ -82,13 +79,13 @@ cat > index.html << 'EOF'
       font-weight: 500;
       transition: all 0.3s;
     }
-    
+
     .btn-access:hover { background: #d4af37; color: #0a0a0a; }
-    .btn-coming { color: #555; border-color: #333; cursor: not-allowed; }
-    .btn-coming:hover { background: transparent; color: #555; }
-    
-    footer { text-align: center; padding: 40px; border-top: 1px solid #1a1a1a; color: #555; font-size: 12px; }
-    
+    .btn-coming { color: #666; border-color: #333; cursor: not-allowed; }
+    .btn-coming:hover { background: transparent; color: #666; }
+
+    footer { text-align: center; padding: 40px; border-top: 2px solid #d4af37; color: #666; font-size: 12px; }
+
     @media (max-width: 768px) {
       .ops-grid { grid-template-columns: 1fr; gap: 20px; padding: 60px 30px; }
       .hero { padding: 100px 30px; }
@@ -155,13 +152,3 @@ cat > index.html << 'EOF'
   </footer>
 </body>
 </html>
-EOF
-
-git config user.email "bot@ops.com"
-git config user.name "OPS Bot"
-git add index.html
-git commit -m "style: noir/doré premium design + coming soon"
-git push https://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@github.com/SPECTRE888/ops-platform.git main
-
-cd ../..
-rm -rf temp
