@@ -1,203 +1,167 @@
+git clone https://github.com/SPECTRE888/ops-platform.git temp
+cd temp/landing
+
+cat > index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OPS Platform - Gestion événementielle moderne</title>
+  <title>OPS Platform</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0f0f0f;
-      color: #e0e0e0;
-      line-height: 1.6;
+      background: #0a0a0a;
+      color: #e8e8e8;
     }
     
     header {
-      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-      padding: 20px 40px;
-      border-bottom: 1px solid #333;
+      background: #0f0f0f;
+      padding: 20px 60px;
+      border-bottom: 1px solid #1a1a1a;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     
-    .logo { font-size: 24px; font-weight: 700; color: #fff; }
+    .logo { font-size: 18px; font-weight: 600; color: #d4af37; letter-spacing: 1px; }
     
-    nav a {
-      color: #aaa;
-      text-decoration: none;
-      margin: 0 20px;
-      font-size: 14px;
-      transition: color 0.3s;
-    }
-    
-    nav a:hover { color: #fff; }
+    nav a { color: #888; text-decoration: none; margin: 0 20px; font-size: 12px; text-transform: uppercase; }
+    nav a:hover { color: #d4af37; }
     
     .hero {
       text-align: center;
-      padding: 120px 40px 80px;
-      background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+      padding: 160px 60px;
+      background: #0a0a0a;
     }
     
-    .hero h1 {
-      font-size: 52px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: #fff;
-    }
-    
-    .hero p {
-      font-size: 18px;
-      color: #aaa;
-      max-width: 600px;
-      margin: 0 auto 40px;
-    }
+    .hero h1 { font-size: 48px; font-weight: 300; margin-bottom: 15px; color: #fff; }
+    .hero p { font-size: 15px; color: #888; max-width: 500px; margin: 0 auto; }
     
     .ops-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      padding: 100px 40px;
-      max-width: 1200px;
+      gap: 30px;
+      padding: 100px 60px;
+      max-width: 1400px;
       margin: 0 auto;
     }
     
     .ops-card {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 12px;
+      background: #0f0f0f;
+      border: 1px solid #1a1a1a;
       padding: 40px;
       text-align: center;
-      transition: all 0.3s;
-      cursor: pointer;
+      transition: border 0.3s;
     }
     
-    .ops-card:hover {
-      border-color: #555;
-      background: #222;
-      transform: translateY(-5px);
-    }
+    .ops-card:hover { border-color: #d4af37; }
+    .ops-card.coming { opacity: 0.5; }
     
-    .ops-card h3 {
-      font-size: 24px;
-      margin-bottom: 15px;
-      color: #fff;
-    }
+    .ops-card h3 { font-size: 20px; margin-bottom: 10px; color: #fff; font-weight: 500; }
+    .ops-card p { color: #666; font-size: 13px; margin-bottom: 25px; }
     
-    .ops-card p {
-      color: #888;
-      font-size: 14px;
-      margin-bottom: 30px;
-    }
+    .coming-badge { color: #d4af37; font-size: 11px; text-transform: uppercase; margin-bottom: 15px; display: block; }
     
-    .ops-features {
-      text-align: left;
-      margin-bottom: 30px;
-    }
-    
-    .ops-features li {
-      color: #666;
-      font-size: 13px;
-      margin-bottom: 8px;
-      list-style: none;
-    }
-    
-    .ops-features li:before {
-      content: "✓ ";
-      color: #4a9d6f;
-      font-weight: bold;
-      margin-right: 8px;
-    }
+    .ops-features { text-align: left; margin-bottom: 25px; }
+    .ops-features li { color: #555; font-size: 12px; margin-bottom: 8px; list-style: none; }
+    .ops-features li:before { content: "—"; color: #d4af37; margin-right: 8px; }
     
     .btn-access {
-      background: #2a2a2a;
-      color: #fff;
-      border: 1px solid #444;
-      padding: 12px 30px;
-      border-radius: 6px;
+      background: transparent;
+      color: #d4af37;
+      border: 1px solid #d4af37;
+      padding: 10px 30px;
+      border-radius: 1px;
       cursor: pointer;
-      font-size: 14px;
-      transition: all 0.3s;
+      font-size: 11px;
       text-decoration: none;
       display: inline-block;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: all 0.3s;
     }
     
-    .btn-access:hover {
-      background: #3a3a3a;
-      border-color: #666;
-    }
+    .btn-access:hover { background: #d4af37; color: #0a0a0a; }
+    .btn-coming { color: #555; border-color: #333; cursor: not-allowed; }
+    .btn-coming:hover { background: transparent; color: #555; }
     
-    footer {
-      text-align: center;
-      padding: 40px;
-      border-top: 1px solid #333;
-      color: #666;
-      font-size: 13px;
-    }
+    footer { text-align: center; padding: 40px; border-top: 1px solid #1a1a1a; color: #555; font-size: 12px; }
     
     @media (max-width: 768px) {
-      .ops-grid { grid-template-columns: 1fr; gap: 20px; padding: 60px 20px; }
-      .hero h1 { font-size: 36px; }
-      nav a { margin: 0 10px; }
+      .ops-grid { grid-template-columns: 1fr; gap: 20px; padding: 60px 30px; }
+      .hero { padding: 100px 30px; }
+      .hero h1 { font-size: 32px; }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">OPS Platform</div>
+    <div class="logo">OPS PLATFORM</div>
     <nav>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
+      <a href="#systems">Systems</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Gestion d'événements ultra simple</h1>
-    <p>Choisissez votre système OPS et gérez vos événements en temps réel</p>
+    <h1>Event Management Platform</h1>
+    <p>Professional operations management for premium events</p>
   </section>
 
-  <section class="ops-grid" id="features">
+  <section class="ops-grid" id="systems">
     <div class="ops-card">
-      <h3>🍸 Bar OPS</h3>
-      <p>Gestion complète de vos événements bar</p>
+      <h3>Bar Operations</h3>
+      <p>Complete bar event management</p>
       <ul class="ops-features">
-        <li>Gestion du personnel</li>
-        <li>Planning cocktails</li>
-        <li>Logistique temps réel</li>
-        <li>Devis automatiques</li>
+        <li>Staff scheduling</li>
+        <li>Cocktail planning</li>
+        <li>Real-time logistics</li>
+        <li>Automated quotations</li>
       </ul>
-      <a href="https://bar.ops-platform.com" class="btn-access">Accéder à Bar OPS</a>
+      <a href="https://bar.ops-platform.com" class="btn-access">Access Bar Ops</a>
     </div>
 
-    <div class="ops-card">
-      <h3>🍽️ Catering OPS</h3>
-      <p>Orchestrez vos services de catering</p>
+    <div class="ops-card coming">
+      <span class="coming-badge">Coming Soon</span>
+      <h3>Catering Operations</h3>
+      <p>Professional catering management</p>
       <ul class="ops-features">
         <li>Menu management</li>
-        <li>Équipes & postes</li>
-        <li>Livraison & logistique</li>
-        <li>Facturation intégrée</li>
+        <li>Team coordination</li>
+        <li>Delivery logistics</li>
+        <li>Integrated billing</li>
       </ul>
-      <a href="https://catering.ops-platform.com" class="btn-access">Accéder à Catering OPS</a>
+      <button class="btn-access btn-coming" disabled>Coming Soon</button>
     </div>
 
-    <div class="ops-card">
-      <h3>📅 Events OPS</h3>
-      <p>Orchestration d'événements premium</p>
+    <div class="ops-card coming">
+      <span class="coming-badge">Coming Soon</span>
+      <h3>Events Operations</h3>
+      <p>Enterprise event orchestration</p>
       <ul class="ops-features">
-        <li>Planning multi-services</li>
-        <li>Coordination complète</li>
-        <li>Budget & facturation</li>
-        <li>Rapports détaillés</li>
+        <li>Multi-service planning</li>
+        <li>Complete coordination</li>
+        <li>Budget management</li>
+        <li>Detailed reporting</li>
       </ul>
-      <a href="https://events.ops-platform.com" class="btn-access">Accéder à Events OPS</a>
+      <button class="btn-access btn-coming" disabled>Coming Soon</button>
     </div>
   </section>
 
   <footer>
-    <p>&copy; 2024 OPS Platform. Tous droits réservés.</p>
+    <p>&copy; 2024 OPS Platform. All rights reserved.</p>
   </footer>
 </body>
 </html>
+EOF
+
+git config user.email "bot@ops.com"
+git config user.name "OPS Bot"
+git add index.html
+git commit -m "style: noir/doré premium design + coming soon"
+git push https://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@github.com/SPECTRE888/ops-platform.git main
+
+cd ../..
+rm -rf temp
