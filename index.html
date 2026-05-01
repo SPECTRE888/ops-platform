@@ -49,42 +49,67 @@
       flex: 1;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0;
+      gap: 24px;
       width: 100%;
+      padding: 40px 32px;
       border-top: 1px solid rgba(255, 255, 255, 0.07);
       overflow: hidden;
+      align-items: stretch;
     }
 
     .ops-card {
-      padding: 35px 28px;
-      border-right: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 0;
+      border: 2px solid var(--gold);
+      border-right: none;
       position: relative;
-      text-align: center;
+      text-align: left;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
       justify-content: flex-start;
       overflow-y: auto;
+      border-radius: 2px;
+      background: transparent;
     }
-    .ops-card:last-child { border-right: none; }
-    .ops-card.coming { opacity: 0.7; }
+    .ops-card:last-child { border-right: 2px solid var(--gold); }
+    .ops-card.coming { opacity: 0.8; }
 
-    .coming-badge { color: #080808; background: var(--gold); font-size: clamp(7px, 1vw, 10px); text-transform: uppercase; padding: 4px 8px; margin-bottom: 8px; display: inline-block; font-weight: 600; letter-spacing: 0.12em; border-radius: 1px; }
+    .card-header {
+      padding: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      text-align: center;
+    }
+    .card-header h3 { font-size: clamp(18px, 2.5vw, 22px); font-weight: 400; letter-spacing: 0.05em; margin-bottom: 0; color: var(--text); }
+    .card-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #080808; padding: 4px 16px; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 0; }
 
-    .ops-card h3 { font-size: clamp(18px, 2.8vw, 22px); font-weight: 400; letter-spacing: 0.05em; margin-bottom: 16px; margin-top: 0; }
-    .ops-card p { color: var(--text2); font-size: clamp(12px, 1.7vw, 14px); line-height: 1.6; margin-bottom: 16px; }
+    .card-content {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-    .ops-features { text-align: left; margin-bottom: 0; display: inline-block; }
-    .ops-features li { color: var(--text2); font-size: clamp(11px, 1.4vw, 13px); margin-bottom: 7px; list-style: none; line-height: 1.5; }
-    .ops-features li:before { content: "—"; color: var(--gold); margin-right: 8px; }
+    .feature-section { display: flex; flex-direction: column; gap: 8px; }
+    .feature-section-title { font-size: clamp(10px, 1.2vw, 12px); color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+    .feature-section li { color: var(--text2); font-size: clamp(10px, 1.3vw, 12px); margin-bottom: 6px; list-style: none; line-height: 1.4; }
+    .feature-section li:before { content: "✓ "; color: var(--gold); margin-right: 8px; font-weight: 600; }
+
+    .ops-card .ops-features { display: none; }
+
+    .card-footer {
+      padding: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin-top: auto;
+    }
 
     .btn-access {
-      padding: 10px 28px;
+      padding: 12px 28px;
       background: var(--gold);
       color: #080808;
       border: none;
-      border-radius: 2px;
-      font-size: clamp(9px, 1.3vw, 11px);
+      border-radius: 0;
+      font-size: clamp(10px, 1.3vw, 12px);
       font-weight: 600;
       cursor: pointer;
       letter-spacing: 0.12em;
@@ -92,8 +117,10 @@
       font-family: 'Jost', sans-serif;
       transition: 0.25s;
       text-decoration: none;
-      display: inline-block;
-      margin-top: auto;
+      display: block;
+      width: 100%;
+      margin-top: 0;
+      text-align: center;
     }
     .btn-access:hover { background: var(--gold2); }
     .btn-coming { background: transparent; color: var(--text2); border: 1px solid var(--text2); cursor: not-allowed; }
@@ -136,51 +163,121 @@
 
   <section class="ops-grid" id="systems">
     <div class="ops-card">
-      <h3>Bar</h3>
-      <ul class="ops-features">
-        <li>Toute votre activité centralisée sur une seule plateforme</li>
-        <li>92% plus rapide<br><span>(basé sur les retours utilisateurs : ~3h vs 15 min avec Bar Ops)</span></li>
-        <li>+20% de marge supplémentaire</li>
-        <li>Équipe briefée en 1 clic</li>
-        <li>ROI en deux événements</li>
-        <li>Commandes automatiques</li>
-        <li>Stock en temps réel avec alertes</li>
-        <li>Devis auto générés</li>
-        <li>Suivi et Historique complet</li>
-      </ul>
-      <a href="https://bar-opsv2public.netlify.app/index.html" class="btn-access">ACCÉDER À BAR-OPS</a>
+      <div class="card-header">
+        <h3>BAR</h3>
+      </div>
+      <div class="card-content">
+        <div class="feature-section">
+          <div class="feature-section-title">ÉVÉNEMENTS</div>
+          <ul>
+            <li>Toute votre activité centralisée</li>
+            <li>92% plus rapide</li>
+            <li>+20% de marge</li>
+            <li>Équipe briefée en 1 clic</li>
+            <li>ROI en deux événements</li>
+          </ul>
+        </div>
+        <div class="feature-section">
+          <div class="feature-section-title">CATALOGUE</div>
+          <ul>
+            <li>Stock en temps réel avec alertes</li>
+            <li>Devis auto générés</li>
+          </ul>
+        </div>
+        <div class="feature-section">
+          <div class="feature-section-title">AUTOMATISATION</div>
+          <ul>
+            <li>Commandes automatiques</li>
+            <li>Suivi et Historique complet</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="https://bar-opsv2public.netlify.app/index.html" class="btn-access">ACCÉDER À BAR-OPS</a>
+      </div>
     </div>
 
     <div class="ops-card coming">
-      <h3>Catering</h3>
-      <ul class="ops-features">
-        <li>Intégration complète de vos fournisseurs</li>
-        <li>Menus optimisés automatiquement</li>
-        <li>+25% de rentabilité garantie</li>
-        <li>Coûts maîtrisés et réduits</li>
-        <li>Équipe coordonnée en 1 clic</li>
-        <li>Commandes automatiques aux fournisseurs</li>
-        <li>Stock en temps réel et alertes</li>
-        <li>ROI en trois événements</li>
-        <li>Suivi complet des marges et historique</li>
-      </ul>
-      <button class="btn-access btn-coming" disabled>Bientôt</button>
+      <div class="card-badge">COMING SOON</div>
+      <div class="card-header">
+        <h3>CATERING</h3>
+      </div>
+      <div class="card-content">
+        <div class="feature-section">
+          <div class="feature-section-title">FOURNISSEURS</div>
+          <ul>
+            <li>Intégration complète</li>
+            <li>Menus optimisés</li>
+            <li>+25% de rentabilité</li>
+          </ul>
+        </div>
+        <div class="feature-section">
+          <div class="feature-section-title">COÛTS</div>
+          <ul>
+            <li>Coûts maîtrisés et réduits</li>
+            <li>Suivi complet des marges</li>
+          </ul>
+        </div>
+        <div class="feature-section">
+          <div class="feature-section-title">ÉQUIPE & COMMANDES</div>
+          <ul>
+            <li>Équipe coordonnée en 1 clic</li>
+            <li>Commandes automatiques</li>
+            <li>Stock en temps réel</li>
+          </ul>
+        </div>
+        <div class="feature-section">
+          <div class="feature-section-title">ROI</div>
+          <ul>
+            <li>ROI en trois événements</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn-access btn-coming" disabled>BIENTÔT</button>
+      </div>
     </div>
 
     <div class="ops-card coming">
-      <h3>Événements</h3>
-      <ul class="ops-features">
-        <li>Orchestration multi-services centralisée</li>
-        <li>+30% de marge garantie</li>
-        <li>Coordination de tous les prestataires</li>
-        <li>Plannings synchronisés automatiquement</li>
-        <li>Gestion budgétaire en temps réel</li>
-        <li>Briefing d'équipes multi-services</li>
-        <li>Devis multi-prestataires auto-générés</li>
-        <li>ROI immédiat dès le premier événement</li>
-        <li>Reporting détaillé et évaluation post-événement</li>
-      </ul>
-      <button class="btn-access btn-coming" disabled>Bientôt</button>
+      <div class="card-badge">COMING SOON</div>
+      <div class="card-header">
+        <h3>ÉVÉNEMENTS</h3>
+      </div>
+      <div class="card-content">
+        <div class="feature-section">
+          <div class="feature-section-title">SERVICES</div>
+          <ul>
+            <li>Orchestration multi-services</li>
+            <li>+30% de marge garantie</li>
+            <li>Coordination complète</li>
+          </ul>
+        </div>
+        <div class="feature-section">
+          <div class="feature-section-title">COORDINATION</div>
+          <ul>
+            <li>Plannings synchronisés</li>
+            <li>Équipes briefées</li>
+            <li>Devis multi-prestataires</li>
+          </ul>
+        </div>
+        <div class="feature-section">
+          <div class="feature-section-title">BUDGET & REPORTING</div>
+          <ul>
+            <li>Gestion budgétaire en temps réel</li>
+            <li>Reporting détaillé</li>
+            <li>Évaluation post-événement</li>
+          </ul>
+        </div>
+        <div class="feature-section">
+          <div class="feature-section-title">ROI</div>
+          <ul>
+            <li>ROI immédiat dès le 1er événement</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn-access btn-coming" disabled>BIENTÔT</button>
+      </div>
     </div>
   </section>
 
