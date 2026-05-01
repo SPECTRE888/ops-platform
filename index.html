@@ -8,65 +8,82 @@
   <style>
     :root { --bg: #080808; --text: #ede8e0; --text2: #7a7268; --gold: #c4a46b; --gold2: #d4b47a; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
-    body { font-family: 'Jost', sans-serif; background: #000; color: var(--text); overflow-x: hidden; display: flex; flex-direction: column; }
+    html { height: 100%; }
+    body {
+      height: 100vh;
+      font-family: 'Jost', sans-serif;
+      background: #000;
+      color: var(--text);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
 
     h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
 
     header {
+      flex: 0 0 auto;
       background: var(--bg);
-      padding: 14px 40px;
+      padding: 16px 40px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.07);
       display: flex;
       justify-content: flex-start;
     }
-    .logo { font-size: 20px; font-weight: 300; letter-spacing: 0.1em; color: var(--gold); }
+    .logo { font-size: clamp(18px, 3vw, 24px); font-weight: 300; letter-spacing: 0.1em; color: var(--gold); }
 
     .hero {
+      flex: 0 0 32%;
       text-align: center;
-      padding: 40px 60px;
+      padding: 30px 60px;
       background: var(--bg);
       border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    .hero h1 { font-size: 40px; font-weight: 300; letter-spacing: 0.08em; margin-bottom: 8px; }
-    .hero p { font-size: 14px; font-weight: 300; color: var(--text2); max-width: 600px; margin: 0 auto; letter-spacing: 0.02em; }
+    .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 300; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .hero p { font-size: clamp(12px, 2.2vw, 18px); font-weight: 300; color: var(--text2); max-width: 600px; margin: 0 auto; letter-spacing: 0.02em; }
 
     .ops-grid {
+      flex: 1;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0;
       width: 100%;
       border-top: 1px solid rgba(255, 255, 255, 0.07);
+      overflow: hidden;
     }
 
     .ops-card {
-      padding: 30px 30px;
+      padding: 25px 20px;
       border-right: 1px solid rgba(255, 255, 255, 0.07);
       position: relative;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      overflow-y: auto;
     }
     .ops-card:last-child { border-right: none; }
     .ops-card.coming { opacity: 0.7; }
 
-    .coming-badge { color: #080808; background: var(--gold); font-size: 8px; text-transform: uppercase; padding: 4px 8px; margin-bottom: 8px; display: inline-block; font-weight: 600; letter-spacing: 0.12em; border-radius: 1px; }
+    .coming-badge { color: #080808; background: var(--gold); font-size: clamp(7px, 1vw, 10px); text-transform: uppercase; padding: 4px 8px; margin-bottom: 8px; display: inline-block; font-weight: 600; letter-spacing: 0.12em; border-radius: 1px; }
 
-    .ops-card h3 { font-size: 16px; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 8px; margin-top: 0; }
-    .ops-card p { color: var(--text2); font-size: 11px; line-height: 1.4; margin-bottom: 12px; }
+    .ops-card h3 { font-size: clamp(14px, 2.2vw, 18px); font-weight: 400; letter-spacing: 0.05em; margin-bottom: 8px; margin-top: 0; }
+    .ops-card p { color: var(--text2); font-size: clamp(10px, 1.5vw, 13px); line-height: 1.4; margin-bottom: 12px; }
 
-    .ops-features { text-align: left; margin-bottom: 14px; display: inline-block; }
-    .ops-features li { color: var(--text2); font-size: 10px; margin-bottom: 4px; list-style: none; line-height: 1.3; }
+    .ops-features { text-align: left; margin-bottom: 12px; display: inline-block; }
+    .ops-features li { color: var(--text2); font-size: clamp(9px, 1.2vw, 12px); margin-bottom: 4px; list-style: none; line-height: 1.3; }
     .ops-features li:before { content: "—"; color: var(--gold); margin-right: 8px; }
 
     .btn-access {
-      padding: 8px 24px;
+      padding: 8px 22px;
       background: var(--gold);
       color: #080808;
       border: none;
       border-radius: 2px;
-      font-size: 9px;
+      font-size: clamp(8px, 1.2vw, 11px);
       font-weight: 600;
       cursor: pointer;
       letter-spacing: 0.12em;
@@ -82,16 +99,19 @@
     .btn-coming:hover { background: transparent; color: var(--text2); }
 
     footer {
+      flex: 0 0 auto;
       width: 100%;
       border-top: 1px solid rgba(255, 255, 255, 0.07);
+      overflow-y: auto;
+      max-height: 24vh;
     }
     .features { display: grid; grid-template-columns: repeat(5, 1fr); width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.07); }
-    .feature { padding: 12px 12px; border-right: 1px solid rgba(255, 255, 255, 0.07); text-align: center; }
+    .feature { padding: 10px 10px; border-right: 1px solid rgba(255, 255, 255, 0.07); text-align: center; }
     .feature:last-child { border-right: none; }
-    .feature h3 { font-size: 12px; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px; color: var(--text); }
-    .feature p { color: var(--text2); font-size: 10px; line-height: 1.3; font-weight: 300; }
+    .feature h3 { font-size: clamp(11px, 1.5vw, 14px); font-weight: 400; letter-spacing: 0.05em; margin-bottom: 4px; color: var(--text); }
+    .feature p { color: var(--text2); font-size: clamp(9px, 1.2vw, 12px); line-height: 1.3; font-weight: 300; }
 
-    .legal { text-align: center; font-size: 10px; color: var(--text2); padding: 10px 16px; border-top: 1px solid rgba(255, 255, 255, 0.07); line-height: 1.5; }
+    .legal { text-align: center; font-size: clamp(8px, 1.1vw, 11px); color: var(--text2); padding: 8px 12px; border-top: 1px solid rgba(255, 255, 255, 0.07); line-height: 1.5; }
     .legal-link { cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
     .legal-link:hover { color: var(--gold); }
 
