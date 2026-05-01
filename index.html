@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>BAR OPS</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+const SUPA_URL='https://hrpcdtkhnewigewomcvv.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhycGNkdGtobmV3aWdld29tY3Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NTE2ODEsImV4cCI6MjA5MjIyNzY4MX0.VExeqSOA8M_kR4Uw8GXBRaqbctQjpZ8DgOn_-n-HJ5c';
+const STRIPE_KEY='pk_test_51TPeHTH4J8tDqadYwAj8UGwokwOJ5VdiBxLbpghuEJkEcPO1p45mTQ5vU59j6bg0Mc8nIJ2AnEZI10prSLtDvNSH00xgi4X5IZ';
+const PRICES={early:{monthly:89,yearly:801},pro:{monthly:149,yearly:1341}};
+let currentPeriod='monthly';
+const sb=window.supabase.createClient(SUPA_URL,SUPA_KEY);
+async function goPay(plan){
+  if(plan==='free'){window.location.href='app.html';return;}
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session){window.location.href='auth.html';return;}
+  const price=PRICES[plan][currentPeriod];
+  const btn=event?.target;if(btn){btn.disabled=true;btn.textContent='...';}
+  try{
+    const res=await fetch('/.netlify/functions/subscription',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan,period:currentPeriod,userId:session.user.id,priceInCents:Math.round(price*100)})});
+    if(!res.ok){const e=await res.text();alert('Erreur: '+e);return;}
+    const{sessionId,error}=await res.json();
+    if(error){alert('Erreur: '+error);return;}
+    if(sessionId)Stripe(STRIPE_KEY).redirectToCheckout({sessionId});
+  }catch(e){alert('Erreur: '+e.message);}finally{if(btn){btn.disabled=false;btn.textContent='Souscrire';}}
+}
+</script>
+<style>
+:root{--bg:#080808;--text:#ede8e0;--text2:#7a7268;--gold:#c4a46b;--gold2:#d4b47a}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Jost',sans-serif;background:#000;color:var(--text);display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:0}
+h1,h2,h3{font-family:'Cormorant Garamond',serif}
+
+/* HERO */
+.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px;gap:0}
+.logo{font-size:54px;font-weight:300;letter-spacing:.1em;margin-bottom:18px}
+.tagline{font-size:20px;font-weight:300;color:var(--text);letter-spacing:.02em;margin-bottom:44px;max-width:600px}
+.btn-primary{padding:14px 52px;background:var(--gold);color:#080808;border:none;border-radius:3px;font-size:11px;font-weight:600;cursor:pointer;letter-spacing:.16em;text-transform:uppercase;font-family:'Jost',sans-serif;transition:.25s;margin-bottom:0}
+.btn-primary:hover{background:var(--gold2)}
+
+/* FOOTER */
+footer{width:100%;border-top:1px solid rgba(255,255,255,.07)}
+.sub{text-align:center;font-size:14px;color:var(--text2);padding:18px 24px 0;max-width:600px;margin:0 auto;line-height:1.6}
+.features{display:grid;grid-template-columns:repeat(5,1fr);width:100%;border-top:1px solid rgba(255,255,255,.07);margin-top:18px}
+.feature{padding:18px 16px;border-right:1px solid rgba(255,255,255,.07);text-align:center}
+.feature:last-child{border-right:none}
+.feature h3{font-size:15px;font-weight:400;letter-spacing:.05em;margin-bottom:6px;color:var(--text)}
+.feature p{color:var(--text2);font-size:13px;line-height:1.5;font-weight:300}
+.legal{text-align:center;font-size:13px;color:var(--text2);padding:16px 24px;border-top:1px solid rgba(255,255,255,.07);line-height:1.8;opacity:1}
+.legal-link{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.legal-link:hover{color:var(--gold)}
+#legal-modal{display:none}
+#legal-modal.open{display:flex!important}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo">BAR OPS</div>
+  <div class="tagline">Une nouvelle manière de piloter vos événements.</div>
+  <button class="btn-primary" onclick="window.location.href='auth.html'">Accéder à la plateforme</button>
+</div>
+
+<footer>
+  <div class="features">
+    <div class="feature"><h3>92% plus rapide</h3><p>Créez un événement et son devis en 15min.</p></div>
+    <div class="feature"><h3>+20% de marge</h3><p>Coûts et prix optimisés automatiquement.</p></div>
+    <div class="feature"><h3>Équipe briefée en 1 clic</h3><p>Assignez et briefez votre staff sans confusion.</p></div>
+    <div class="feature"><h3>ROI en deux événements</h3><p>Souscription rentabilisée en deux événements.</p></div>
+    <div class="feature"><h3>Historique complet</h3><p>Suivez marges et évolution de vos prestations.</p></div>
+  </div>
+  <div class="legal">
+    © 2026 BAR OPS — Tous droits réservés &nbsp;·&nbsp;
+    <span class="legal-link" onclick="showLegal('rgpd')">Politique de confidentialité</span> &nbsp;·&nbsp;
+    <span class="legal-link" onclick="showLegal('mentions')">Mentions légales</span>
+  </div>
+</footer>
+
+<div id="legal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#0a0a0a;border:1px solid #c4a46b;border-radius:6px;padding:36px 40px;max-width:580px;width:92%;position:relative;color:#ede8e0;font-size:13px;line-height:1.8">
+    <button onclick="document.getElementById('legal-modal').style.display='none'" style="position:absolute;top:14px;right:18px;background:none;border:none;color:#c4a46b;font-size:22px;cursor:pointer;line-height:1">×</button>
+    <div id="legal-content" style="white-space:pre-line"></div>
+  </div>
+</div>
+
+<script>
+(async()=>{
+  const mode=new URLSearchParams(window.location.search).get('mode');
+  if(mode==='pricing'){
+    document.querySelector('.hero').style.display='none';
+    // Show pricing section
+    showPricing();
+    return;
+  }
+  if(mode==='check'){
+    const{data:{session}}=await sb.auth.getSession();
+    if(!session)return;
+    for(let i=0;i<5;i++){
+      const{data}=await sb.from('subscriptions').select('status,expires_at').eq('user_id',session.user.id).eq('status','active').order('expires_at',{ascending:false}).limit(1).then(r=>({data:r.data?.[0]}));
+      if(data?.status==='active'&&new Date(data.expires_at)>new Date()){window.location.href='app.html';return;}
+      await new Promise(r=>setTimeout(r,1000));
+    }
+  }
+  if(!window.supabase)return;
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session)return;
+  if(mode==='pricing')return;
+  try{
+    const{data}=await sb.from('subscriptions').select('status,expires_at').eq('user_id',session.user.id).eq('status','active').order('expires_at',{ascending:false}).limit(1).then(r=>({data:r.data?.[0]}));
+    if(data?.status==='active'&&new Date(data.expires_at)>new Date())window.location.href='app.html';
+  }catch(e){}
+})();
+</script>
+<script>
+const LEGAL={
+  rgpd:'Politique de confidentialité — Conformément au RGPD (Règlement UE 2016/679), vous disposez d\'un droit d\'accès, de rectification et de suppression de vos données. Aucune donnée personnelle n\'est cédée à des tiers. Données hébergées par Netlify Inc. (USA) dans le cadre du Privacy Shield. Responsable de traitement : Intelligence Spotlighted, 63 avenue Pasteur, 93100 Montreuil. Contact : contact@intelligencespotlighted.com',
+  mentions:'Mentions légales — Éditeur : Intelligence Spotlighted\n63 avenue Pasteur, 93100 Montreuil, France\nEmail : contact@intelligencespotlighted.com\nDirecteur de publication : Jérôme\nHébergement : Netlify Inc., 44 Montgomery Street, San Francisco, CA 94104, USA'
+};
+function showLegal(type){
+  document.getElementById('legal-content').textContent=LEGAL[type];
+  const m=document.getElementById('legal-modal');
+  m.style.display='flex';
+  m.style.alignItems='center';
+  m.style.justifyContent='center';
+}
+</script>
+</body>
+</html>
