@@ -4,92 +4,99 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OPS Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0a0a0a;
-      color: #e8e8e8;
-    }
+    :root { --bg: #080808; --text: #ede8e0; --text2: #7a7268; --gold: #c4a46b; --gold2: #d4b47a; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { font-family: 'Jost', sans-serif; background: #000; color: var(--text); overflow-x: hidden; }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
 
     header {
-      background: #0f0f0f;
-      padding: 20px 60px;
-      border-bottom: 2px solid #d4af37;
+      background: var(--bg);
+      padding: 24px 60px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
-    .logo { font-size: 18px; font-weight: 600; color: #d4af37; letter-spacing: 1px; }
-
-    nav a { color: #888; text-decoration: none; margin: 0 20px; font-size: 12px; text-transform: uppercase; }
-    nav a:hover { color: #d4af37; }
+    .logo { font-size: 28px; font-weight: 300; letter-spacing: 0.1em; color: var(--gold); }
+    nav { display: flex; gap: 40px; }
+    nav a { color: var(--text2); text-decoration: none; font-size: 13px; letter-spacing: 0.05em; transition: 0.3s; }
+    nav a:hover { color: var(--gold); }
 
     .hero {
       text-align: center;
-      padding: 160px 60px;
-      background: #0a0a0a;
+      padding: 120px 60px;
+      background: var(--bg);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     }
-
-    .hero h1 { font-size: 48px; font-weight: 300; margin-bottom: 15px; color: #d4af37; }
-    .hero p { font-size: 15px; color: #888; max-width: 500px; margin: 0 auto; }
+    .hero h1 { font-size: 54px; font-weight: 300; letter-spacing: 0.08em; margin-bottom: 18px; }
+    .hero p { font-size: 18px; font-weight: 300; color: var(--text2); max-width: 600px; margin: 0 auto; letter-spacing: 0.02em; }
 
     .ops-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      padding: 100px 60px;
-      max-width: 1400px;
-      margin: 0 auto;
+      gap: 0;
+      width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
     }
 
     .ops-card {
-      background: #0f0f0f;
-      border: 2px solid #d4af37;
-      padding: 40px;
-      text-align: center;
-      transition: all 0.3s;
+      padding: 60px 40px;
+      border-right: 1px solid rgba(255, 255, 255, 0.07);
       position: relative;
+      text-align: center;
     }
+    .ops-card:last-child { border-right: none; }
+    .ops-card.coming { opacity: 0.7; }
 
-    .ops-card:hover { border-color: #ffd700; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
-    .ops-card.coming { opacity: 0.8; }
+    .coming-badge { color: #080808; background: var(--gold); font-size: 10px; text-transform: uppercase; padding: 6px 12px; margin-bottom: 18px; display: inline-block; font-weight: 600; letter-spacing: 0.12em; border-radius: 1px; }
 
-    .ops-card h3 { font-size: 20px; margin-bottom: 10px; color: #d4af37; font-weight: 500; }
-    .ops-card p { color: #888; font-size: 13px; margin-bottom: 25px; }
+    .ops-card h3 { font-size: 20px; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 12px; margin-top: 12px; }
+    .ops-card p { color: var(--text2); font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
 
-    .coming-badge { color: #0a0a0a; background: #d4af37; font-size: 11px; text-transform: uppercase; padding: 6px 12px; margin-bottom: 15px; display: inline-block; font-weight: 600; letter-spacing: 1px; }
-
-    .ops-features { text-align: left; margin-bottom: 25px; }
-    .ops-features li { color: #888; font-size: 12px; margin-bottom: 8px; list-style: none; }
-    .ops-features li:before { content: "—"; color: #d4af37; margin-right: 8px; }
+    .ops-features { text-align: left; margin-bottom: 28px; display: inline-block; }
+    .ops-features li { color: var(--text2); font-size: 12px; margin-bottom: 8px; list-style: none; line-height: 1.5; }
+    .ops-features li:before { content: "—"; color: var(--gold); margin-right: 8px; }
 
     .btn-access {
-      background: transparent;
-      color: #d4af37;
-      border: 2px solid #d4af37;
-      padding: 10px 30px;
-      border-radius: 1px;
-      cursor: pointer;
+      padding: 12px 40px;
+      background: var(--gold);
+      color: #080808;
+      border: none;
+      border-radius: 2px;
       font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: 'Jost', sans-serif;
+      transition: 0.25s;
       text-decoration: none;
       display: inline-block;
-      text-transform: uppercase;
-      font-weight: 500;
-      transition: all 0.3s;
+    }
+    .btn-access:hover { background: var(--gold2); }
+    .btn-coming { background: transparent; color: var(--text2); border: 1px solid var(--text2); cursor: not-allowed; }
+    .btn-coming:hover { background: transparent; color: var(--text2); }
+
+    footer {
+      width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.8;
     }
 
-    .btn-access:hover { background: #d4af37; color: #0a0a0a; }
-    .btn-coming { color: #666; border-color: #333; cursor: not-allowed; }
-    .btn-coming:hover { background: transparent; color: #666; }
-
-    footer { text-align: center; padding: 40px; border-top: 2px solid #d4af37; color: #666; font-size: 12px; }
-
     @media (max-width: 768px) {
-      .ops-grid { grid-template-columns: 1fr; gap: 20px; padding: 60px 30px; }
-      .hero { padding: 100px 30px; }
-      .hero h1 { font-size: 32px; }
+      .ops-grid { grid-template-columns: 1fr; }
+      .ops-card { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.07); padding: 40px 24px; }
+      .ops-card:last-child { border-bottom: none; }
+      .hero { padding: 80px 24px; }
+      .hero h1 { font-size: 36px; }
+      header { padding: 18px 24px; flex-direction: column; gap: 18px; }
     }
   </style>
 </head>
@@ -104,7 +111,7 @@
 
   <section class="hero">
     <h1>Plateforme de Gestion d'Événements</h1>
-    <p>Gestion opérationnelle professionnelle pour événements premium</p>
+    <p>Une nouvelle manière de piloter vos événements professionnels.</p>
   </section>
 
   <section class="ops-grid" id="systems">
@@ -148,7 +155,7 @@
   </section>
 
   <footer>
-    <p>&copy; 2024 OPS Platform. Tous droits réservés.</p>
+    &copy; 2024 OPS Platform. Tous droits réservés.
   </footer>
 </body>
 </html>
