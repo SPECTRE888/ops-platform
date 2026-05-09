@@ -1048,6 +1048,21 @@ const STAFF_PER   = ['per hour'];
 const GLASS_TYPES=['Rocks','Highball','Verre','Martini','Coupe','Collins','Flûte','Tiki mug','Copper mug','Hurricane','Snifter','Shot glass','Wine glass','Goblet','Jam jar','Stemless wine','Sling glass'];
 
 // ════════════════════════════════════════════════════════
+// VERSIONING & CHANGELOG
+// ════════════════════════════════════════════════════════
+const APP_CHANGELOG=[
+  {version:'1.2.0',date:'2025-05-09',changes:[
+    '✓ Système de suivi des commandes',
+    '✓ Commandes en cours avec réception par produit',
+    '✓ Historique des commandes reçues',
+    '✓ Édition de quantités reçues',
+    '✓ Mise à jour auto du stock',
+    '✓ Fenêtre "Commande passée" au sending'
+  ]}
+];
+const CURRENT_VERSION=APP_CHANGELOG[0].version;
+
+// ════════════════════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════════════════════
 let state = {};
@@ -1088,6 +1103,33 @@ function load(){
       else c.glass=c.glass.split(' — ')[0].trim();
     }
   });
+}
+
+function showChangelogIfNew(){
+  const lastSeenVersion=localStorage.getItem('_lastSeenVersion');
+  if(lastSeenVersion===CURRENT_VERSION) return;
+
+  const changelog=APP_CHANGELOG[0];
+  const modal=document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML=`<div style="background:var(--surface);border-radius:var(--radius-lg);padding:32px;width:100%;max-width:480px;display:flex;flex-direction:column;gap:20px;max-height:80vh;overflow-y:auto">
+    <div style="text-align:center">
+      <div style="font-size:24px;font-weight:600;margin-bottom:4px">Nouvelle mise à jour 🎉</div>
+      <div style="font-size:13px;color:var(--text3);letter-spacing:.05em">v${changelog.version}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${changelog.changes.map(c=>`<div style="display:flex;align-items:flex-start;gap:8px;font-size:13px">
+        <span style="color:var(--green);flex-shrink:0">${c.split(' ')[0]}</span>
+        <span style="color:var(--text2)">${c.substring(2)}</span>
+      </div>`).join('')}
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost" style="flex:1" onclick="this.closest('[style*=fixed]').remove()">Fermer</button>
+      <button class="btn btn-gold" style="flex:1" onclick="localStorage.setItem('_lastSeenVersion','${CURRENT_VERSION}');this.closest('[style*=fixed]').remove()">Super !</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+  localStorage.setItem('_lastSeenVersion',CURRENT_VERSION);
 }
 
 // ════════════════════════════════════════════════════════
@@ -8124,7 +8166,7 @@ updateCloudStatus();
     updateBadges();
     applyTheme();
     _initDone=true;
-    setTimeout(()=>goPage('events'),100);
+    setTimeout(()=>{goPage('events');showChangelogIfNew();},100);
     return;
   }
   if(!cloudUser) await cloudRestoreSessionAsync();
@@ -8156,6 +8198,7 @@ updateCloudStatus();
   updateBadges();
   renderDashboard();
   applyTheme();
+  setTimeout(()=>showChangelogIfNew(),500);
   window.addEventListener('pageshow',()=>{
     const pending=sessionStorage.getItem('pendingSend');
     if(pending){
