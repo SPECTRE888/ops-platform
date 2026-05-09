@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build & dist
+dist/
+build/
+*.bundle.js
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.key
+
+# IDE & system
+.obsidian/
+.vscode/
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.cache/
+.next/
+
+# Claude context (personal, session-specific)
+# → Keep in local vault only (/Users/jarrige/VAULT)
+.claude/MEMORY.md
+.claude/memory/
+.claude/context.md
