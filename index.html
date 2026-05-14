@@ -131,6 +131,17 @@
     .btn-coming { background: transparent; color: var(--text2); border: 1px solid var(--text2); cursor: not-allowed; }
     .btn-coming:hover { background: transparent; color: var(--text2); }
 
+    .install-block { margin: 0 16px 14px; padding: 14px 16px; border: 1px solid #2a2520; border-radius: 6px; background: #0a0a0a; }
+    .install-block-title { font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 10px; }
+    .install-steps { font-size: 11px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+    .install-steps span { color: var(--text); }
+    .install-cmd-row { display: flex; align-items: center; gap: 8px; background: #0d0d0d; border: 1px solid #1e1a16; border-radius: 4px; padding: 8px 10px; margin-bottom: 10px; }
+    .install-cmd-row code { font-family: 'Courier New', monospace; font-size: 10px; color: var(--gold); flex: 1; word-break: break-all; line-height: 1.5; }
+    .copy-install-btn { background: none; border: 1px solid #2a2520; border-radius: 3px; padding: 4px 10px; color: var(--text2); font-size: 10px; cursor: pointer; white-space: nowrap; font-family: 'Jost', sans-serif; transition: .2s; flex-shrink: 0; }
+    .copy-install-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .dl-install-btn { display: block; text-align: center; padding: 8px; background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 3px; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Jost', sans-serif; text-decoration: none; transition: .25s; }
+    .dl-install-btn:hover { background: var(--gold); color: #080808; }
+
     footer {
       flex: 0 0 auto;
       width: 100%;
@@ -200,6 +211,15 @@
       </div>
       <div class="card-footer">
         <a href="https://bar-opsv2public.netlify.app/index.html" class="btn-access">ACCÉDER À BAR-OPS</a>
+      </div>
+      <div class="install-block">
+        <div class="install-block-title">📥 Installer l'app Mac</div>
+        <div class="install-steps">1. Télécharge <span>BarOps.zip</span> → place dans Téléchargements<br>2. Ouvre le <span>Terminal</span> et colle :</div>
+        <div class="install-cmd-row">
+          <code id="install-cmd">APP=$(find ~/Downloads -name "Bar Ops.app" -maxdepth 4 | head -1) && xattr -cr "$APP" && rm -rf "/Applications/Bar Ops.app" && cp -r "$APP" "/Applications/Bar Ops.app" && open "/Applications/Bar Ops.app"</code>
+          <button class="copy-install-btn" onclick="copyInstall()">Copier</button>
+        </div>
+        <a class="dl-install-btn" href="https://github.com/SPECTRE888/bar-ops/releases/latest" target="_blank">Télécharger Bar Ops</a>
       </div>
     </div>
 
@@ -307,6 +327,14 @@
       rgpd:'Politique de confidentialité — Conformément au RGPD (Règlement UE 2016/679), vous disposez d\'un droit d\'accès, de rectification et de suppression de vos données. Aucune donnée personnelle n\'est cédée à des tiers. Données hébergées par Netlify Inc. (USA) dans le cadre du Privacy Shield. Responsable de traitement : Intelligence Spotlighted, 63 avenue Pasteur, 93100 Montreuil. Contact : contact@intelligencespotlighted.com',
       mentions:'Mentions légales — Éditeur : Intelligence Spotlighted\n63 avenue Pasteur, 93100 Montreuil, France\nEmail : contact@intelligencespotlighted.com\nDirecteur de publication : Jérôme\nHébergement : Netlify Inc., 44 Montgomery Street, San Francisco, CA 94104, USA'
     };
+    function copyInstall(){
+      const cmd=document.getElementById('install-cmd').textContent;
+      navigator.clipboard.writeText(cmd).then(()=>{
+        const btn=document.querySelector('.copy-install-btn');
+        btn.textContent='Copié !'; btn.style.color='var(--gold)'; btn.style.borderColor='var(--gold)';
+        setTimeout(()=>{btn.textContent='Copier';btn.style.color='';btn.style.borderColor='';},2000);
+      });
+    }
     function showLegal(type){
       document.getElementById('legal-content').textContent=LEGAL[type];
       const m=document.getElementById('legal-modal');
